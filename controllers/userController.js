@@ -1,4 +1,3 @@
-const user = require("../models/user");
 const userModel = require("../models/user");
 
 const usersController = {
@@ -10,7 +9,6 @@ const usersController = {
     });
     newUser.save((error) => {
       if (error) {
-        console.log("error signing up");
         res.status(400).json({ message: "Error signing up" });
       } else {
         res.status(200).json({ message: "Signing up successfully" });
@@ -25,7 +23,7 @@ const usersController = {
       .then((user) => {
         if (user !== null) {
           if (user.password === FORM_DATA.password) {
-            res.status(200).json({ message: "Log in successfully" });
+            res.status(200).json({ id: user._id });
           } else {
             res
               .status(400)

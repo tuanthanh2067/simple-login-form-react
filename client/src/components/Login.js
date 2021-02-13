@@ -2,23 +2,20 @@ import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { login } from "../actions/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch();
+
   const submitHandler = (e) => {
     e.preventDefault();
-    fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify({ email: email, password: password }),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((result) => console.log(result))
-      .catch((error) => console.log(error));
+    dispatch(login(email, password));
   };
 
   return (

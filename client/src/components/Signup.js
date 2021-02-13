@@ -12,18 +12,10 @@ const Signup = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords are not the same!!!");
-    } else {
-      fetch("/api/register-user", {
-        method: "POST",
-        body: JSON.stringify({ email: email, password: password }),
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((res) => res.json())
-        .then((result) => console.log(result))
-        .catch((error) => console.log(error));
-    }
+    // if (password !== confirmPassword) {
+    //   alert("Passwords are not the same!!!");
+    // } else {
+    // }
   };
 
   return (
