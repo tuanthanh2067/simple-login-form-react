@@ -2,10 +2,13 @@ const userModel = require("../models/user");
 
 const usersController = {
   userSignUp(req, res) {
-    const FORM_DATA = req.body;
+    // data is validated already
+    const { email, password, fname, lname } = req.body;
     const newUser = new userModel({
-      email: FORM_DATA.email,
-      password: FORM_DATA.password,
+      email: email,
+      password: password,
+      fname: fname,
+      lname: lname,
     });
     newUser.save((error) => {
       if (error) {

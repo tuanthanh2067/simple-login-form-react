@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
+import { useSelector, useDispatch } from "react-redux";
+
+import { HIDE_MODAL } from "../constants/actionTypes";
 
 const Popup = () => {
-  const [show, setShow] = useState(false);
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    dispatch({
+      type: HIDE_MODAL,
+    });
+  };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal
+      show={modal.active}
+      onHide={handleClose}
+      keyboard={false}
+      animation={false}
+    >
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>User notification!</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+      <Modal.Body>{modal.message}</Modal.Body>
     </Modal>
   );
 };

@@ -6,20 +6,25 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { login } from "../actions/auth";
+import Loading from "./Spinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [spinnerStatus, setSpinnerStatus] = useState(false);
 
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
+    setSpinnerStatus(true);
+    dispatch(login(email, password)).then(() => {
+      setSpinnerStatus(false);
+    });
   };
 
   return (
-    <Container className="col-lg-4">
+    <Container className="col-lg-4 mt-4">
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -28,6 +33,7 @@ const Login = () => {
             placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <Form.Text className="text-muted">
             We'll never share your email with anyone else.
@@ -41,6 +47,7 @@ const Login = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </Form.Group>
         <Button variant="primary" type="submit">
@@ -51,6 +58,8 @@ const Login = () => {
         <p className="mr-1">Don't have an account?</p>
         <Link to="/signup">Sign up</Link>
       </div>
+
+      {spinnerStatus && <Loading />}
     </Container>
   );
 };

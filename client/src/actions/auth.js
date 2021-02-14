@@ -1,13 +1,11 @@
 import {
-  LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   SIGNUP_FAIL,
-  SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   LOGOUT,
-  SET_MESSAGE,
-  CLEAR_MESSAGE,
+  SHOW_MODAL,
+  HIDE_MODAL,
 } from "../constants/actionTypes";
 
 import axios from "axios";
@@ -15,14 +13,14 @@ import axios from "axios";
 export const signup = (email, password) => (dispatch) => {
   return axios
     .post("/api/register-user", { email, password })
-    .then((res) => res.json())
+    .then((res) => res.data)
     .then((data) => {
       dispatch({
         type: SIGNUP_SUCCESS,
       });
       dispatch({
-        type: SET_MESSAGE,
-        payload: data,
+        type: SHOW_MODAL,
+        payload: data.message,
       });
     })
     .catch((error) => {
@@ -30,8 +28,8 @@ export const signup = (email, password) => (dispatch) => {
         type: SIGNUP_FAIL,
       });
       dispatch({
-        type: SET_MESSAGE,
-        payload: error,
+        type: SHOW_MODAL,
+        payload: error.response.data.message,
       });
     });
 };
@@ -42,9 +40,6 @@ export const login = (email, password) => (dispatch) => {
     .then((res) => res.data)
     .then((data) => {
       dispatch({
-        type: CLEAR_MESSAGE,
-      });
-      dispatch({
         type: LOGIN_SUCCESS,
         payload: { user: data.id },
       });
@@ -54,7 +49,7 @@ export const login = (email, password) => (dispatch) => {
         type: LOGIN_FAIL,
       });
       dispatch({
-        type: SET_MESSAGE,
+        type: SHOW_MODAL,
         payload: error.response.data.message,
       });
     });

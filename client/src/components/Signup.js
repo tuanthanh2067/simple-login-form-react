@@ -2,24 +2,29 @@ import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { signup } from "../actions/auth";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const dispatch = useDispatch();
+
   const submitHandler = (e) => {
     e.preventDefault();
-    // if (password !== confirmPassword) {
-    //   alert("Passwords are not the same!!!");
-    // } else {
-    // }
+    if (password !== confirmPassword) {
+      alert("Passwords are not the same!!!");
+    } else {
+      dispatch(signup(email, password));
+    }
   };
 
   return (
-    <Container className="col-md-4">
+    <Container className="col-md-4 mt-4">
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -30,6 +35,7 @@ const Signup = () => {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
+            required
           />
           <Form.Text className="text-muted">
             We'll never share your email with anyone else.
@@ -45,6 +51,7 @@ const Signup = () => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            required
           />
         </Form.Group>
 
@@ -57,7 +64,18 @@ const Signup = () => {
             onChange={(e) => {
               setConfirmPassword(e.target.value);
             }}
+            required
           />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicFirstName">
+          <Form.Label>First name</Form.Label>
+          <Form.Control type="text" placeholder="Enter your first name" />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicLastName">
+          <Form.Label>Last name</Form.Label>
+          <Form.Control type="text" placeholder="Enter your last name" />
         </Form.Group>
 
         <Button variant="primary" type="submit">
