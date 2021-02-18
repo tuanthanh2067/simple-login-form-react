@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { login } from "../actions/auth";
 import Loading from "./Spinner";
@@ -11,16 +11,13 @@ import Loading from "./Spinner";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [spinnerStatus, setSpinnerStatus] = useState(false);
 
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setSpinnerStatus(true);
-    dispatch(login(email, password)).then(() => {
-      setSpinnerStatus(false);
-    });
+    dispatch(login(email, password, "/home"));
   };
 
   return (
@@ -59,7 +56,7 @@ const Login = () => {
         <Link to="/signup">Sign up</Link>
       </div>
 
-      {spinnerStatus && <Loading />}
+      {loading.active && <Loading />}
     </Container>
   );
 };

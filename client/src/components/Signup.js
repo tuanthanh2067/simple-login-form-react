@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -11,7 +11,8 @@ import { signup } from "../actions/auth";
 import Loading from "./Spinner";
 
 const Signup = () => {
-  const [spinnerStatus, setSpinnerStatus] = useState(false);
+  const loading = useSelector((state) => state.loading);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -37,14 +38,11 @@ const Signup = () => {
       lname: Yup.string().required("Last name is required"),
     }),
     onSubmit: (values) => {
-      setSpinnerStatus(true);
-      dispatch(signup(values.email, values.password)).then(() =>
-        setSpinnerStatus(false)
+      dispatch(
+        signup(values.email, values.password, values.fname, values.lname)
       );
     },
   });
-
-  const dispatch = useDispatch();
 
   return (
     <Container className="col-md-4 mt-4">
@@ -121,7 +119,7 @@ const Signup = () => {
         <Link to="/login">Log in</Link>
       </div>
 
-      {spinnerStatus && <Loading />}
+      {loading.active && <Loading />}
     </Container>
   );
 };

@@ -13,6 +13,8 @@ const Nav = () => {
     title = "Log in";
   } else if (location.pathname === "/signup") {
     title = "Sign up";
+  } else if (location.pathname === "/home") {
+    title = "Home";
   }
 
   return (

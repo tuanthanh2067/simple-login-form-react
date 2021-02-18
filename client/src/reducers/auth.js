@@ -1,9 +1,7 @@
 import {
   SIGNUP_FAIL,
-  SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   LOGIN_FAIL,
-  LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGOUT,
 } from "../constants/actionTypes";
