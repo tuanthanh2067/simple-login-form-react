@@ -19,6 +19,8 @@ router.post(
   userController.userSignUp
 );
 
+router.get("/api/user/:id", userController.getUserById);
+
 app.use(errors());
 
 module.exports = router;

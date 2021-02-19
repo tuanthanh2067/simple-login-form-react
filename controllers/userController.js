@@ -18,6 +18,7 @@ const usersController = {
       }
     });
   },
+
   userLogin(req, res) {
     const FORM_DATA = req.body;
     userModel
@@ -37,6 +38,26 @@ const usersController = {
             .status(400)
             .json({ message: "Username or password is not correct" });
         }
+      });
+  },
+
+  getUserById(req, res) {
+    const id = req.params.id;
+    userModel
+      .findOne({ _id: id })
+      .exec()
+      .then((user) => {
+        res.status(200).json({
+          id: user._id,
+          email: user.email,
+          fname: user.fname || "",
+          lname: user.lname || "",
+        });
+      })
+      .catch((err) => {
+        res.status(400).json({
+          message: `Can not find user with id ${id}`,
+        });
       });
   },
 };
