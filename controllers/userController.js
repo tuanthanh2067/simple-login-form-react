@@ -60,6 +60,20 @@ const usersController = {
         });
       });
   },
+
+  getAllUsers(req, res) {
+    userModel
+      .find({}, { email: 1, fname: 1, lname: 1 })
+      .exec()
+      .then((users) => {
+        res.status(200).json(users);
+      })
+      .catch((err) => {
+        res.status(400).json({
+          message: `Can not get all users`,
+        });
+      });
+  },
 };
 
 module.exports = usersController;

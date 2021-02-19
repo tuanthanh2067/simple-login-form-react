@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
 import { Container, Table } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   SHOW_LOADING,
@@ -10,10 +10,9 @@ import {
 } from "../constants/actionTypes";
 import Loading from "./Spinner";
 
-const Home = () => {
-  const [info, setInfo] = useState(null);
+const Lobby = () => {
+  const [users, setUsers] = useState(null);
   const loading = useSelector((state) => state.loading);
-  const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,10 +20,10 @@ const Home = () => {
       type: SHOW_LOADING,
     });
     axios
-      .get(`/api/user/${user.user}`)
+      .get("/api/users")
       .then((res) => res.data)
       .then((data) => {
-        setInfo(data);
+        setUsers(data);
       })
       .catch((error) => {
         dispatch({
@@ -43,7 +42,7 @@ const Home = () => {
   return (
     <Container className="col-lg-10 mt-4">
       {loading.active && <Loading />}
-      {info && (
+      {users && (
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -54,12 +53,14 @@ const Home = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{info.id}</td>
-              <td>{info.email}</td>
-              <td>{info.fname}</td>
-              <td>{info.lname}</td>
-            </tr>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user._id}</td>
+                <td>{user.email}</td>
+                <td>{user.fname}</td>
+                <td>{user.lname}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       )}
@@ -67,4 +68,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Lobby;

@@ -6,15 +6,16 @@ import { history } from "./utils/history";
 
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Nav from "./components/Nav";
+import Header from "./components/Header";
 import Modal from "./components/Popup";
 import Home from "./components/Home";
+import Lobby from "./components/Lobby";
 
 function App() {
   return (
     <Router history={history}>
       <div className="App">
-        <Nav />
+        <Header />
         <Modal />
         <Switch>
           <Route path="/" exact>
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" render={() => <Login />} />
           <Route path="/signup" render={() => <Signup />} />
           <Route path="/home" render={() => <Home />} />
+          <Route path="/lobby" render={() => <Lobby />} />
         </Switch>
       </div>
     </Router>

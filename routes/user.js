@@ -20,6 +20,7 @@ router.post(
 );
 
 router.get("/api/user/:id", userController.getUserById);
+router.get("/api/users", userController.getAllUsers);
 
 app.use(errors());
 

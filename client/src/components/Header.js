@@ -1,9 +1,10 @@
 import React from "react";
-import Navbar from "react-bootstrap/Navbar";
+import { Nav, Navbar } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 
-const Nav = () => {
+const Header = () => {
   const location = useLocation();
 
   const user = useSelector((state) => state.auth);
@@ -15,16 +16,28 @@ const Nav = () => {
     title = "Sign up";
   } else if (location.pathname === "/home") {
     title = "Home";
+  } else if (location.pathname === "/lobby") {
+    title = "Lobby";
   }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar expand="lg" bg="dark" variant="dark">
       <Navbar.Brand>{title}</Navbar.Brand>
       {user.isLoggedIn && (
         <>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>Logout</Navbar.Text>
+            <Nav>
+              <LinkContainer to="/home">
+                <Nav.Link>Homepage</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/lobby">
+                <Nav.Link>Lobby</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/login">
+                <Nav.Link>Log out</Nav.Link>
+              </LinkContainer>
+            </Nav>
           </Navbar.Collapse>
         </>
       )}
@@ -32,4 +45,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default Header;
