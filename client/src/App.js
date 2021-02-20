@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import Modal from "./components/Popup";
 import Home from "./components/Home";
 import Lobby from "./components/Lobby";
+import Logout from "./components/Logout";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/signup" render={() => <Signup />} />
           <Route path="/home" render={() => <Home />} />
           <Route path="/lobby" render={() => <Lobby />} />
+          <Route path="/logout" render={() => <Logout />} />
         </Switch>
       </div>
     </Router>

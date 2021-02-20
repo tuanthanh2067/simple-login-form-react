@@ -37,8 +37,7 @@ const Home = () => {
           type: HIDE_LOADING,
         });
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, user.user]);
 
   return (
     <Container className="col-lg-10 mt-4">
