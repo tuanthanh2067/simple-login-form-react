@@ -1,21 +1,29 @@
+const bcrypt = require("bcrypt");
+
 const userModel = require("../models/user");
 
 const usersController = {
   userSignUp(req, res) {
     // data is validated already
     const { email, password, fname, lname } = req.body;
-    const newUser = new userModel({
-      email: email,
-      password: password,
-      fname: fname,
-      lname: lname,
-    });
-    newUser.save((error) => {
-      if (error) {
-        res.status(400).json({ message: "Error signing up" });
-      } else {
-        res.status(200).json({ message: "Signing up successfully" });
+    bcrypt.hash(password, 10, (err, hash) => {
+      if (err) {
+        console.log(err);
+        return;
       }
+      const newUser = new userModel({
+        email: email,
+        password: hash,
+        fname: fname,
+        lname: lname,
+      });
+      newUser.save((error) => {
+        if (error) {
+          res.status(400).json({ message: "Error signing up" });
+        } else {
+          res.status(200).json({ message: "Signing up successfully" });
+        }
+      });
     });
   },
 
@@ -26,13 +34,19 @@ const usersController = {
       .exec()
       .then((user) => {
         if (user !== null) {
-          if (user.password === FORM_DATA.password) {
-            res.status(200).json({ id: user._id });
-          } else {
-            res
-              .status(400)
-              .json({ message: "Username or password is not correct" });
-          }
+          bcrypt.compare(
+            FORM_DATA.password,
+            user.password,
+            function (err, correct) {
+              if (correct === true) {
+                res.status(200).json({ id: user._id });
+              } else {
+                res
+                  .status(400)
+                  .json({ message: "Username or password is not correct" });
+              }
+            }
+          );
         } else {
           res
             .status(400)
