@@ -61,6 +61,7 @@ export const login = (email, password, from) => (dispatch) => {
       dispatch({
         type: HIDE_LOADING,
       });
+      localStorage.setItem("user", data.id);
       history.push(from);
     })
     .catch((error) => {
